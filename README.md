@@ -2,6 +2,12 @@
 
 A generator for [Yeoman](http://yeoman.io).
 
+This is a generator for creating a new [TiddlyWiki][] from npm. It will establish a base directory structure and npm packages to both server (locally) and compile a fresh TiddlyWiki. It uses [Gulp][] as the build stem with the following tasks:
+
+- `gulp server` - Serve the TiddlyWiki as a web app (http://127.0.0.1:8080/) with built in autosaving.
+- `gulp dist`   - Compile a stand alown HTML file from the stored tiddlers.
+- `gulp deploy` - When you add the deplot option it will copy the generated file to your server via SSH.
+- `gulp clean`  - Clean up any left ofer generated files.
 
 ## Getting Started
 

@@ -1,8 +1,9 @@
 {
   "name": "generator-tiddlywiki",
-  "version": "0.0.0",
-  "description": "A generator for Yeoman",
+  "version": "1.0.0",
+  "description": "A TiddlyWiki generator for Yeoman",
   "keywords": [
+    "tiddlywiki",
     "yeoman-generator"
   ],
   "homepage": "https://github.com/sukima/generator-tiddlywiki",
