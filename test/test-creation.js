@@ -4,6 +4,12 @@
 var path    = require('path');
 var helpers = require('yeoman-generator').test;
 
+var mockPromptData = {
+  isDeployable: true,
+  user:         'foo',
+  hostname:     'bar',
+  path:         'baz'
+};
 
 describe('tiddlywiki generator', function () {
   beforeEach(function (done) {
@@ -26,13 +32,36 @@ describe('tiddlywiki generator', function () {
       'package.json',
       'gulpfile.js',
       'src/tiddlywiki.info',
-      'server/tiddlywiki.info'
+      'dist/tiddlywiki.info'
     ];
 
-    helpers.mockPrompt(this.app, {});
+    helpers.mockPrompt(this.app, mockPromptData);
     this.app.options['skip-install'] = true;
     this.app.run({}, function () {
       helpers.assertFiles(expected);
+      done();
+    });
+  });
+
+  it('handles deployable option', function (done) {
+    helpers.mockPrompt(this.app, mockPromptData);
+    this.app.options['skip-install'] = true;
+    this.app.run({}, function () {
+      helpers.assertFile('package.json', /scp/);
+      helpers.assertFile('gulpfile.js', /scp/);
+      helpers.assertFile('gulpfile.js', /user.*foo/);
+      helpers.assertFile('gulpfile.js', /host.*bar/);
+      helpers.assertFile('gulpfile.js', /path.*baz/);
+      done();
+    });
+  });
+
+  it('handles no deployable option', function (done) {
+    helpers.mockPrompt(this.app, {isDeployable: false});
+    this.app.options['skip-install'] = true;
+    this.app.run({}, function () {
+      helpers.assertFile('package.json', /(?!scp)/);
+      helpers.assertFile('gulpfile.js', /(?!scp)/);
       done();
     });
   });

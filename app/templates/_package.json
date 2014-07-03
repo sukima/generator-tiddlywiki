@@ -7,7 +7,11 @@
     "tiddlywiki": "~5.0.9-beta"
   },
   "devDependencies": {
+    <% if (isDeployable) { %>
+    "scp": "0.0.3",
+    <% } %>
     "gulp": "~3.6.0",
-    "gulp-util": "~2.2.14"
+    "gulp-util": "~2.2.14",
+    "gulp-clean": "~0.3.1"
   }
 }

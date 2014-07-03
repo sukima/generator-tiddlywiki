@@ -19,34 +19,62 @@ var TiddlywikiGenerator = module.exports = function TiddlywikiGenerator(args, op
 util.inherits(TiddlywikiGenerator, yeoman.generators.Base);
 
 TiddlywikiGenerator.prototype.askFor = function askFor() {
-  //var cb = this.async();
+  var cb = this.async();
 
   // have Yeoman greet the user.
   console.log(this.yeoman);
 
-  // var prompts = [{
-  //   type: 'confirm',
-  //   name: 'someOption',
-  //   message: 'Would you like to enable this option?',
-  //   default: true
-  // }];
+  var isDeployable = function(props) { return props.isDeployable; };
 
-  // this.prompt(prompts, function (props) {
-  //   this.someOption = props.someOption;
+  var prompts = [
+    {
+      type:    'confirm',
+      name:    'isDeployable',
+      message: 'Will you be deploying the TiddlyWiki HTML file via SSH?',
+      default: true
+    },
+    {
+      type:    'input',
+      name:    'user',
+      message: 'What is the username you use to log into the SSH Server?',
+      default: process.env.USER,
+      when:    isDeployable
+    },
+    {
+      type:    'input',
+      name:    'hostname',
+      message: 'What is the hostname of the SSH Server?',
+      when:    isDeployable
+    },
+    {
+      type:    'input',
+      name:    'path',
+      message: 'What directory will you be saving the generated index.html file on the server?',
+      default: '',
+      when:    isDeployable
+    }
+  ];
 
-  //   cb();
-  // }.bind(this));
+  this.prompt(prompts, function (props) {
+    this.isDeployable = props.isDeployable;
+    this.user         = props.user;
+    this.hostname     = props.hostname;
+    this.path         = props.path;
+
+    cb();
+  }.bind(this));
 };
 
 TiddlywikiGenerator.prototype.app = function app() {
   this.mkdir('src');
   this.mkdir('src/tiddlers');
-  this.mkdir('server');
-  fs.symlinkSync('../src/tiddlers', 'server/tiddlers');
+  this.mkdir('dist');
+  fs.symlinkSync('../src/tiddlers', 'dist/tiddlers');
 
-  this.copy('_package.json', 'package.json');
-  this.copy('_gitignore', '.gitignore');
-  this.copy('gulpfile.js', 'gulpfile.js');
+  this.template('_package.json', 'package.json');
+  this.template('_gulpfile.js', 'gulpfile.js');
+
+  this.copy('gitignore', '.gitignore');
   this.copy('src/tiddlywiki.info', 'src/tiddlywiki.info');
-  this.copy('server/tiddlywiki.info', 'server/tiddlywiki.info');
+  this.copy('dist/tiddlywiki.info', 'dist/tiddlywiki.info');
 };
