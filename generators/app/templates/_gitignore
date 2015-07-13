@@ -1,0 +1,4 @@
+node_modules/
+tiddlers/\$__StoryList.tid
+tiddlers/\$__ShowEditPreview.tid
+**/output/
