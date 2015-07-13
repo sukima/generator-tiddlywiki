@@ -57,16 +57,16 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     app: function () {
       this.fs.copy(
-        this.templatePath('tiddlers/_gitkeep'),
-        this.destinationPath('tiddlers/.gitkeep')
-      );
-      this.fs.copy(
         this.templatePath('wiki/tiddlywiki.info'),
         this.destinationPath('wiki/tiddlywiki.info')
       );
       this.fs.copy(
         this.templatePath('wiki-dist/tiddlywiki.info'),
         this.destinationPath('wiki-dist/tiddlywiki.info')
+      );
+      this.fs.copy(
+        this.templatePath('wiki-dist/tiddlers/_gitkeep'),
+        this.destinationPath('wiki-dist/tiddlers/.gitkeep')
       );
       this.fs.copyTpl(
         this.templatePath('package.json.ejs'),

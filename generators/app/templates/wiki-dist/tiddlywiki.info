@@ -50,8 +50,5 @@
             "static",
             "text/plain"
         ]
-    },
-    "config": {
-        "default-tiddler-location": "../tiddlers"
     }
 }

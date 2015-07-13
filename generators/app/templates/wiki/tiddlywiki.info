@@ -10,6 +10,6 @@
         "tiddlywiki/snowwhite"
     ],
     "config": {
-        "default-tiddler-location": "../tiddlers"
+        "default-tiddler-location": "../wiki-dist/tiddlers"
     }
 }
