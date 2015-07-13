@@ -57,7 +57,7 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     app: function () {
       this.fs.copy(
-        this.templatePath('tiddlers/.gitkeep'),
+        this.templatePath('tiddlers/_gitkeep'),
         this.destinationPath('tiddlers/.gitkeep')
       );
       this.fs.copy(
