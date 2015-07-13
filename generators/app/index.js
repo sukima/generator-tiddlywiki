@@ -80,14 +80,15 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('_gitignore'),
         this.destinationPath('.gitignore')
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('README.md'),
-        this.destinationPath('README.md')
+        this.destinationPath('README.md'),
+        this.props
       );
     }
   },
 
   install: function () {
-    this.installDependencies();
+    this.npmInstall();
   }
 });
