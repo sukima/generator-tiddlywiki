@@ -1,4 +1,4 @@
 node_modules/
-tiddlers/\$__StoryList.tid
-tiddlers/\$__ShowEditPreview.tid
+wiki-dist/tiddlers/\$__StoryList.tid
+wiki-dist/tiddlers/\$__ShowEditPreview.tid
 **/output/
