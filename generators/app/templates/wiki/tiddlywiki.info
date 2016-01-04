@@ -8,8 +8,5 @@
     "themes": [
         "tiddlywiki/vanilla",
         "tiddlywiki/snowwhite"
-    ],
-    "config": {
-        "default-tiddler-location": "../wiki-dist/tiddlers"
-    }
+    ]
 }
