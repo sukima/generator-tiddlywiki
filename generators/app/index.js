@@ -75,6 +75,17 @@ module.exports = yeoman.generators.Base.extend({
       );
     },
 
+    // TiddlyWiki considers tiddlers in config.default-tiddler-location as
+    // readonly and will produce sequential new files which causes havok with
+    // git stagging. SymLinks however work like a normal tiddler folder but
+    // allow both editions to work on the same tiddler folder.
+    symlinks: function () {
+      ['wiki/tiddlers', 'wiki-dist/tiddlers'].forEach(function(p) {
+        var dest = this.destinationPath(p);
+        fs.symlinkSync('../tiddlers', dest, 'dir');
+      }, this);
+    },
+
     projectfiles: function () {
       this.fs.copy(
         this.templatePath('_gitignore'),
