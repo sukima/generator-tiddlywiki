@@ -1,0 +1,13 @@
+{
+  "tiddlers": [
+    {
+      "file": "polyfill.min.js",
+      "fields": {
+        "title": "$:/plugins/babel/babel-polyfill/polyfill.min.js",
+        "type": "application/javascript",
+        "module-type": "library",
+        "global-module": "true"
+      }
+    }
+  ]
+}

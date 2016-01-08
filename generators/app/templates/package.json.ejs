@@ -1,18 +1,32 @@
 {
-  "name": "my-tiddly-wiki",
-  "version": "0.0.0",
-  "description": "a non-linear personal web notebook",
+  "name": "<%= name %>",
   "private": true,
-  "scripts": {
-    <% if (deployCommand) {
-    %>"deploy": "npm run build && <%= deployCommand %>",<%
-    } %>
-    "start": "tiddlywiki wiki --server",
-    "build": "tiddlywiki wiki-dist --build index static externalimages",
-    "clean": "rm -rf wiki-dist/output"
+  "version": "0.0.0",
+  "description": "<%= description %>",
+  "author": {
+    "name": "<%= authorName %>",
+    "email": "<%= authorEmail %>",
+    "url": "<%= authorUrl %>"
   },
-  "dependencies": {},
-  "devDependencies": {
-    "tiddlywiki": "^5.1.8"
-  }
+  "license": "LicenseRef-LICENSE",
+  "scripts": {<% if (deployCommand) { %>
+    "deploy": "npm run build && <%= deployCommand %>",<% } %>
+    "clean": "gulp clean",
+    "start": "gulp server",
+    "build": "gulp build"
+  },
+  "devDependencies": {<% if (babel) {
+    %>    "babel-preset-es2015": "^6.3.13",<% } %>
+    "bluebird": "^3.1.1",
+    "del": "^2.2.0",
+    "gulp": "^3.9.0",<% if (babel) {
+    %>    "gulp-babel": "^6.1.1",<% } %>
+    "gulp-rename": "^1.2.2",
+    "gulp-util": "^3.0.7",
+    "lodash": "^3.10.1",
+    "tiddlywiki": "^5.1.9"
+  },
+  "dependencies": {<% if (babel) {
+    %>    "babel-polyfill": "^6.3.14"
+  <% } %>}
 }

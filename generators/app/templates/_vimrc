@@ -1,0 +1,3 @@
+augroup filetypedetect
+  au BufNew,BufRead *.info,tiddlywiki.files  setf json
+augroup END

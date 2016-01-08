@@ -1,0 +1,13 @@
+
+/*\
+title: $:/plugins/babel/babel-polyfill/plugin.js
+type: application/javascript
+module-type: startup
+
+ES2015 Polyfill import
+
+\*/
+
+export function startup() {
+  $tw.modules.execute('$:/plugins/babel/babel-polyfill/polyfill.min.js');
+}

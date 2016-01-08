@@ -1,4 +1,5 @@
 node_modules/
-wiki-dist/tiddlers/\$__StoryList.tid
-wiki-dist/tiddlers/\$__ShowEditPreview.tid
-**/output/
+tiddlers/\$__StoryList.tid
+tiddlers/\$__ShowEditPreview.tid
+public/scripts/
+wiki/
