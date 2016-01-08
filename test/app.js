@@ -40,6 +40,13 @@ describe('generator-tiddlywiki:app', function () {
       it('does not include a deploy command', function () {
         assert.noFileContent('package.json', new RegExp('"deploy":'));
       });
+
+      it('produces valid JSON output', function () {
+        /* eslint new-cap: [2, {"capIsNewExceptions": ["assert.JSONFileContent"]}] */
+        assert.JSONFileContent('package.json', {description: PROMPT_VALUES.description});
+        assert.JSONFileContent('config/tiddlywiki.info', {description: PROMPT_VALUES.description});
+        assert.JSONFileContent('config/libraries.json', {});
+      });
     });
 
     describe('without babel', function () {

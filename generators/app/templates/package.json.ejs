@@ -6,11 +6,11 @@
   "author": {
     "name": "<%= authorName %>",
     "email": "<%= authorEmail %>",
-    "url": "<%= authorUrl %>",
+    "url": "<%= authorUrl %>"
   },
   "license": "LicenseRef-LICENSE",
-  "scripts": {<% if (deployCommand) {
-    %>    "deploy": "npm run build && <%= deployCommand %>",<% } %>
+  "scripts": {<% if (deployCommand) { %>
+    "deploy": "npm run build && <%= deployCommand %>",<% } %>
     "clean": "gulp clean",
     "start": "gulp server",
     "build": "gulp build"
