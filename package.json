@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "A TiddlyWiki generator for Yeoman",
   "homepage": "https://github.com/sukima/generator-tiddlywiki",
+  "license": "MIT",
   "author": {
     "name": "Devin Weaver",
     "email": "suki@tritarget.org",
