@@ -1,0 +1,47 @@
+# <%= name %>
+
+<%= description %>
+
+
+## Commands
+
+| Command          | Description |
+|------------------|-------------|
+| `npm start`      | Run the TiddlyWiki as a server at `http://localhost:8080/`. |
+| `npm run build`  | Build the main wiki as a single index.html and static files. |
+| `npm run clean`  | Clean any build files. |
+<% if (deployCommand) {
+%>| `npm run deploy` | Deploy to a server via rsync. |<%
+} %>
+
+## Directories
+
+| Directory  | Description |
+|------------|-------------|
+| `config`   | Build configuration files. |
+| `tiddlers` | Place where all your TiddlyWiki tiddlers reside. |
+| `themes`   | Custom themes to be added to TiddlyWiki. |
+| `plugins`  | Custom plugins to be added to TiddlyWiki. |
+| `public`   | Static assets to be deployed with the built TiddlyWiki. |
+
+
+## Configurations
+
+| Configuration            | Description |
+|--------------------------|-------------|
+| `config/tiddlywiki.info` | Base [TiddlyWiki info file](http://tiddlywiki.com/#TiddlyWikiFolders). |
+| `config/includes.json`   | Extra plugins/themes to include based on production/development. |
+| `config/libraries.json`  | 3rd Party libraries to merge into plugins/scripts. |
+
+The format for `config/libraries.json`:
+
+    {
+      "plugins": [
+        {
+          "srcfile": "node_modules/babel-polyfill/dist/polyfill.min.js",
+          "destpath": "babel-polyfill/files"
+        }
+      ]
+    }
+
+`srcfile` is relative to the project root. `destpath` is relative to the plugins folder.

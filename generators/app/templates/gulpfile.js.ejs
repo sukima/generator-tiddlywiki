@@ -1,0 +1,127 @@
+/* global -Promise */
+var _       = require('lodash');
+var Promise = require('bluebird');
+var fs      = Promise.promisifyAll(require('fs'));
+var spawn   = require('child_process').spawn;
+var del     = require('del');
+var path    = require('path');
+var gulp    = require('gulp');
+var gutil   = require('gulp-util');
+var rename  = require('gulp-rename');
+var libs    = require('./config/libraries');
+<% if (babel) { %>
+var babel   = require('gulp-babel');
+var babelrc = JSON.parse(fs.readFileSync('./.babelrc'));
+<% } %>
+
+function loadJson(file) {
+  return fs.readFileAsync(file).then(function(data) {
+    return JSON.parse(data);
+  });
+}
+
+function includeLibsStream(libs) {
+  return gulp.src(_.map(libs, 'srcfile'), {base: '.'})
+    .pipe(rename(function(lib) {
+      var srcfile = path.join(lib.dirname, lib.basename + lib.extname);
+      lib.dirname = _.findWhere(libs, {srcfile: srcfile}).destpath;
+    }));
+}
+
+function assertWikiDir() {
+  return new Promise(function(resolve, reject) {
+    try {
+      if (!fs.statSync('wiki').isDirectory()) {
+        reject(new Error('EEXISTS: wiki exists but is not a directory'));
+      }
+    } catch(e) {
+      fs.mkdirSync('wiki');
+    }
+    resolve();
+  });
+}
+
+function compileConfigTask(env) {
+  return function() {
+    var promises = [
+      loadJson('config/tiddlywiki.info'),
+      loadJson('config/includes.json').get(env),
+      assertWikiDir()
+    ];
+    return Promise.all(promises).spread(function(config, includes) {
+      _.forEach(includes, function(values, key) {
+        config[key] = _(config[key]).concat(values).uniq();
+      });
+      var data = JSON.stringify(config, null, 2);
+      return fs.writeFileAsync('wiki/tiddlywiki.info', data);
+    });
+  };
+}
+
+function spawnProcess(cmd, args, options) {
+  return new Promise(function(resolve, reject) {
+    var p = spawn(cmd, args, options);
+    p.stdout.pipe(process.stdout);
+    p.stderr.pipe(process.stderr);
+    p.on('close', resolve);
+    p.on('error', reject);
+  });
+}
+
+gulp.task('config-production', compileConfigTask('production'));
+gulp.task('config-development', compileConfigTask('development'));
+
+<% if (babel) { %>
+gulp.task('babel-plugins', function() {
+  return gulp.src('plugins/**/*.js')
+    .pipe(babel(babelrc))
+    .pipe(gulp.dest('wiki/plugins'));
+});
+<% } %>
+
+gulp.task('files-plugins', function() {
+  return gulp.src(['plugins/**/*.*', '!**/*.js'])
+    .pipe(gulp.dest('wiki/plugins'));
+});
+
+gulp.task('plugin-libraries', function() {
+  return includeLibsStream(libs.plugins)
+    .pipe(gulp.dest('wiki/plugins'));
+});
+
+gulp.task('themes', function() {
+  return gulp.src('themes/*')
+    .pipe(gulp.dest('wiki/themes'));
+});
+
+gulp.task('tiddlers', function() {
+  return assertWikiDir().then(function() {
+    try {
+      fs.statSync('wiki/tiddlers');
+      return;
+    } catch(e) {
+      return fs.symlinkAsync('../tiddlers', 'wiki/tiddlers');
+    }
+  });
+});
+
+gulp.task('plugins', [<% if (babel) { %>'babel-plugins', <% } %>'files-plugins', 'plugin-libraries']);
+
+gulp.task('tiddlywiki', ['config-production', 'themes', 'plugins', 'tiddlers'], function() {
+  var args = 'wiki --build index static externalimages'.split(' ');
+  return spawnProcess('./node_modules/.bin/tiddlywiki', args);
+});
+
+gulp.task('server', ['config-development', 'themes', 'plugins', 'tiddlers'], function() {
+  return spawnProcess('./node_modules/.bin/tiddlywiki', ['wiki', '--server']);
+});
+
+gulp.task('build', ['tiddlywiki'], function() {
+  return gulp.src('public/*').pipe(gulp.dest('wiki/output'));
+});
+
+gulp.task('clean', function() {
+  return del(['wiki']);
+});
+
+gulp.task('default', ['build']);

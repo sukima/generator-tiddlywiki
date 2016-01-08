@@ -17,8 +17,9 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.21.1",
     "chalk": "^1.0.0",
+    "lodash": "^3.10.1",
+    "yeoman-generator": "^0.21.1",
     "yosay": "^1.0.2"
   },
   "devDependencies": {
@@ -34,6 +35,9 @@
   },
   "eslintConfig": {
     "extends": "xo-space",
+    "rules": {
+      "key-spacing": [2, {"align": "value"}]
+    },
     "env": {
       "mocha": true
     }
