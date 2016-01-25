@@ -36,7 +36,7 @@ module.exports = yeoman.generators.Base.extend({
 
     // Have Yeoman greet the user.
     this.log(yosay(util.format(
-      'Welcome to the prime %s generator!', chalk.red('generator-tiddlywiki')
+      'Welcome to the prime %s generator!', chalk.red('TiddlyWiki')
     )));
 
     function isDeployable(props) {
