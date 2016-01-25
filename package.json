@@ -1,6 +1,6 @@
 {
   "name": "generator-tiddlywiki",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A TiddlyWiki generator for Yeoman",
   "homepage": "https://github.com/sukima/generator-tiddlywiki",
   "license": "MIT",
